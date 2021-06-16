@@ -1,0 +1,4 @@
+Bundle-Name: redirect-filter
+Bundle-SymbolicName: com.liferay.samples.fbo.redirect.filter
+Bundle-Version: 1.0.0
+Export-Package: com.liferay.samples.fbo.redirect.filter.api
