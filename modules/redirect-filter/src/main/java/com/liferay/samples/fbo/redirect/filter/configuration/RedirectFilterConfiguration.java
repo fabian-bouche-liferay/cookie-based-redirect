@@ -19,6 +19,9 @@ public interface RedirectFilterConfiguration {
 	@Meta.AD(deflt = "", name = "redirect-trigger-cookie-name", required = false)
 	public String redirectTriggerCookieName();
 
+	@Meta.AD(deflt = "", name = "redirect-trigger-cookie-value", required = false)
+	public String redirectTriggerCookieValue();
+	
 	@Meta.AD(deflt = "", name = "redirect-filter-url", required = false)
 	public String redirectFilterUrl();
 

@@ -52,9 +52,19 @@ public class RedirectFilter extends BasePortalFilter {
 			if(virtualHostIsTargetted(request)) {
 			
 				String cookieName = this._redirectFilterConfiguration.redirectTriggerCookieName();
-				if(hasCookie(cookieName, request)) {
+				String cookieValue = getCookie(cookieName, request);
+				
+				if(cookieValue != null) {
 
-					LOG.debug("Redirecting user to: {}", this._redirectFilterConfiguration.redirectFilterUrl());
+					LOG.debug("Has cookie [{}] with value: {}", cookieName, cookieValue);
+
+					String regex = this._redirectFilterConfiguration.redirectTriggerCookieValue();
+					
+					if(cookieValue.matches(regex)) {
+					
+						LOG.debug("Redirecting user to: {}", this._redirectFilterConfiguration.redirectFilterUrl());
+						
+					}
 
 					response.sendRedirect(this._redirectFilterConfiguration.redirectFilterUrl());
 					
@@ -67,7 +77,7 @@ public class RedirectFilter extends BasePortalFilter {
 		chain.doFilter(request, response);
 
 	}
-	
+
 	private boolean virtualHostIsTargetted(HttpServletRequest httpServletRequest) {
 		
 		String[] virtualHosts = this._redirectFilterConfiguration.redirectFilterTargetVirtualHosts();
@@ -79,17 +89,20 @@ public class RedirectFilter extends BasePortalFilter {
 		return false;
 	}
 
-	private boolean hasCookie(String cookieName, HttpServletRequest httpServletRequest) {
+	private String getCookie(String cookieName, HttpServletRequest httpServletRequest) {
 		
 		Cookie[] cookies = httpServletRequest.getCookies();
+
+		if(cookies == null) return null;
+
 		for(int i = 0; i < cookies.length; i++) {
 			Cookie cookie = cookies[i];
-			if(cookie.getName().equals(cookieName)) return true;
+			if(cookie.getName().equals(cookieName)) return cookie.getValue();
 		}
 
 		LOG.debug("Does not have cookie {}", cookieName);
 
-		return false;
+		return null;
 		
 	}
 	
