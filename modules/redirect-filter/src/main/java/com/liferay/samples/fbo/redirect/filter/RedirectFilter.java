@@ -63,12 +63,11 @@ public class RedirectFilter extends BasePortalFilter {
 					if(cookieValue.matches(regex)) {
 					
 						LOG.debug("Redirecting user to: {}", this._redirectFilterConfiguration.redirectFilterUrl());
+						response.sendRedirect(this._redirectFilterConfiguration.redirectFilterUrl());
+						return;
 						
 					}
-
-					response.sendRedirect(this._redirectFilterConfiguration.redirectFilterUrl());
 					
-					return;
 				}
 				
 			}
